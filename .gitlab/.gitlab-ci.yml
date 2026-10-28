@@ -1,0 +1,16 @@
+include:
+  - local: services/ms_order/.gitlab/ci/lint.yml
+  - local: services/ms_order/.gitlab/ci/test.yml
+  - local: services/ms_order/.gitlab/ci/build.yml
+
+.ms_order:maven:
+  image: maven:3.9-eclipse-temurin-21-alpine
+  variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  cache:
+    key: ms_order-maven
+    paths:
+      - .m2/repository
+  before_script:
+    - cd services/ms_order
+    - mvn dependency:resolve dependency:resolve-plugins --batch-mode --no-transfer-progress

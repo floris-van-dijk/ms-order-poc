@@ -1,0 +1,50 @@
+name: ms-order
+services:
+  order-service:
+    container_name: order-service
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-postgres:5432/ms_order
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: ms-kafka:9092
+      SPRING_DATA_REDIS_HOST: order-redis
+      SPRING_DATA_REDIS_PASSWORD: redis
+      REDIS_GLOBAL_HOST: ms-redis
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8083/actuator/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      order-redis:
+        condition: service_healthy
+    networks:
+      - mockstock
+
+  order-redis:
+    container_name: order-redis
+    image: redis:8.6.1
+    restart: unless-stopped
+    command: redis-server --requirepass redis
+    environment:
+      REDIS_PASSWORD: redis
+    volumes:
+      - ./order-redis:/data
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli -a redis ping | grep PONG" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mockstock
+
+networks:
+  mockstock:
+    external: true

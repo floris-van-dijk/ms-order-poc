@@ -1,0 +1,33 @@
+spring.application.name=ms-order
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/ms_order
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring.jpa.hibernate.ddl-auto=create-drop
+
+spring.web.error.include-message=always
+server.port=8083
+server.servlet.context-path=/api
+
+# Redis Configuration
+spring.cache.type=redis
+spring.data.redis.host=
+spring.data.redis.password=
+spring.data.redis.repositories.enabled=false
+
+# Service URLs
+app.services.portfolio.url=http://localhost:8084
+app.services.data-stream.url=http://localhost:8082
+
+# Custom Application Properties
+# The rate in milliseconds for the scheduled order execution job (e.g., 60000 = 1 minute)
+order.schedule.ms=60000
+app.data-seeder.enabled=false
+
+# Jackson JSON Configuration
+spring.jackson.property-naming-strategy=SNAKE_CASE

@@ -1,0 +1,17 @@
+ms_order:build:
+  stage: build
+  image: docker:27
+  services:
+    - docker:27-dind
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+    - export VERSION=$(sed -n "/<artifactId>ms-order<\/artifactId>/{n;s/.*<version>\(.*\)<\/version>.*/\1/p;}" services/ms_order/pom.xml)
+  script:
+    - docker build
+      -f services/ms_order/docker/Dockerfile
+      -t $CI_REGISTRY_IMAGE/ms_order:latest
+      -t $CI_REGISTRY_IMAGE/ms_order:$VERSION
+      services/ms_order
+    - docker push $CI_REGISTRY_IMAGE/ms_order:latest
+    - docker push $CI_REGISTRY_IMAGE/ms_order:$VERSION
+  needs: [ms_order:test]

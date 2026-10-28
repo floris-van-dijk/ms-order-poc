@@ -1,0 +1,7 @@
+ms_order:test:
+  stage: test
+  extends:
+    - .ms_order:maven
+  script:
+    - mvn test --batch-mode --no-transfer-progress
+  needs: [ms_order:lint]

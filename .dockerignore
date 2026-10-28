@@ -1,0 +1,50 @@
+# Docker
+/docker/
+.dockerignore
+
+# Documentation
+README.md
+
+# Git
+/.git/
+/.github/
+.gitignore
+.gitattributes
+
+# JetBrains
+/.idea/
+*.iws
+*.iml
+*.ipr
+
+# Maven
+/.mvn/
+mvnw
+mvnw.cmd
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/nbdist/
+/.nb-gradle/
+/dist/
+/build/
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# System
+.DS_Store
+
+# Target
+/target/
+!target/*.jar
+
+# Visual Studio Code
+/.vscode/

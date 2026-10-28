@@ -1,0 +1,7 @@
+ms_order:lint:
+  stage: lint
+  extends:
+    - .ms_order:maven
+  script:
+    - mvn spotless:check --batch-mode --no-transfer-progress
+    - mvn checkstyle:check --batch-mode --no-transfer-progress
